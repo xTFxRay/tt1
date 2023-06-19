@@ -38,7 +38,8 @@ class LoginController extends Controller
             Auth::login($newUser);
         }
 
-        return redirect('/home');
+        return redirect('/home/' . Auth::user()->name);
+
     }
 
     protected $redirectTo = RouteServiceProvider::HOME;

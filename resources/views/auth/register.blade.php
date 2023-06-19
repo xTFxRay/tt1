@@ -75,7 +75,7 @@
 
                             <div class="mb-0 row">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-secondary">
                                         {{ __('Register') }}
                                     </button>
                                 </div>
@@ -84,8 +84,8 @@
                         <hr>
                         <div class="text-center">
                             <p>Or register with:</p>
-                            <a href="{{ url('login/facebook') }}" class="btn btn-primary ps-3">Facebook</a>
-                            <a href="{{ url('login/google') }}" class="btn btn-danger ms-3 ps-3">Gmail</a>
+                            <a href="{{ url('login/facebook') }}" class="btn btn-secondary ps-3">Facebook</a>
+                            <a href="{{ url('login/google') }}" class="btn btn-secondary ms-3 ps-3">Gmail</a>
                         </div>
                     </div>
                 </div>

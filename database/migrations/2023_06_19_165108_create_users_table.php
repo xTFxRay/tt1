@@ -19,6 +19,7 @@ return new class extends Migration
         $table->enum('role', ['guest', 'gmail', 'registered', 'admin'])->default('guest');
         $table->string('google_token')->nullable();
         $table->timestamps();
+        $table->string('profile_picture')->nullable();
     });
 }
 

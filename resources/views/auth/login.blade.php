@@ -53,12 +53,12 @@
 
                             <div class="mb-3 row">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-secondary">
                                         {{ __('Login') }}
                                     </button>
 
                                     @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        <a class="btn btn-link link-secondary" href="{{ route('password.request') }}">
                                             {{ __('Forgot Your Password?') }}
                                         </a>
                                     @endif
@@ -68,10 +68,10 @@
                         
                         <div class="row">
                             <div class="col-md-8 offset-md-4">
-                                <a href="{{ url('login/facebook') }}" class="btn btn-primary">
+                                <a href="{{ url('login/facebook') }}" class="btn btn-secondary">
                                     {{ __('Login with Facebook') }}
                                 </a>
-                                <a href="{{ url('login/google') }}" class="btn btn-danger ms-3">
+                                <a href="{{ url('login/google') }}" class="btn btn-secondary ms-3">
                                     {{ __('Login with Google') }}
                                 </a>
                             </div>
