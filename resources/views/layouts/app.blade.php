@@ -1,13 +1,15 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'JuicyBeatsWorld') }}</title>
+    <title>{{ trans(App::getLocale() . '.JuicyBeatsWorld') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -20,18 +22,22 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'JuicyBeatsWorld') }}
+                <a class="navbar-brand" href="{{ route('home') }}">
+                    {{ trans(App::getLocale() . '.JuicyBeatsWorld') }}
                 </a>
                 <div class="input-group mb-6 form-outline w-50">
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Searching type</button>
+                <form action="{{ route('song.search') }}" method="POST" class="d-flex">
+                    @csrf
+                    <input type="text" class="form-control me-2" name="search" id="search" placeholder="{{ trans(App::getLocale() . '.Search') }}" aria-label="{{ trans(App::getLocale() . '.Search') }}">
+                    <button class="btn btn-secondary" type="submit">{{ trans(App::getLocale() . '.Search') }}</button>
+                </form>
+              
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
-                        <li><a class="dropdown-item" href="#">Keywords</a></li>
-                        <li><a class="dropdown-item" href="#">Artist</a></li>
-                        <li><a class="dropdown-item" href="#">Song</a></li>
+                        <li><a class="dropdown-item" href="#">{{ trans(App::getLocale() . '.Keywords') }}</a></li>
+                        <li><a class="dropdown-item" href="#">{{ trans(App::getLocale() . '.Artist') }}</a></li>
+                        <li><a class="dropdown-item" href="#">{{ trans(App::getLocale() . '.Song') }}</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Sound kits</a></li>
+                        <li><a class="dropdown-item" href="#">{{ trans(App::getLocale() . '.Sound kits') }}</a></li>
                     </ul>
                 </div>
 
@@ -51,13 +57,13 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">{{ trans(App::getLocale() . '.Login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ trans(App::getLocale() . '.Register') }}</a>
                                 </li>
                             @endif
                         @else
@@ -67,27 +73,14 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Cart') }}
-                                        
+                                    <a class="dropdown-item" href="{{ route('cart.index') }}">
+                                        {{ trans(App::getLocale() . '.Cart') }}
+                                    </a>   
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Profile settings') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Songs') }}
-                                        
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ trans(App::getLocale() . '.Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -96,14 +89,33 @@
                                 </div>
                             </li>
                         @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                        <div class="nav-item dropdown ms-2">
+                            <a id="navbarDropdown" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ trans(App::getLocale() . '.Language') }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('changeLanguage', ['locale' => 'en']) }}">
+                                    EN
+                                </a>
+                                <a class="dropdown-item" href="{{ route('changeLanguage', ['locale' => 'lv']) }}">
+                                    LV
+                                </a>
+                            </div>
+                        </div>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+
+                                        
+        <!-- Dropdown menu links -->
+    </ul>
     </div>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <main class="py-4">
+                @yield('content')
+            </main>
+        </div>
 </body>
 </html>

@@ -18,29 +18,41 @@ class LoginController extends Controller
         return Socialite::driver($provider)->redirect();
     }
 
-    public function handleProviderCallback($provider)
-    {
-        $user = Socialite::driver($provider)->user();
+public function handleProviderCallback($provider)
+{
+    $user = Socialite::driver($provider)->user();
 
-        // Check if the user already exists in the database
-        $existingUser = User::where('email', $user->email)->first();
+    // Check if the user already exists in the database
+    $existingUser = User::where('email', $user->email)->first();
 
-        if ($existingUser) {
-            // If the user exists, log them in
-            Auth::login($existingUser);
+    if ($existingUser) {
+        if ($existingUser->isAdmin()) {
+            // If the logged-in user is an admin, redirect to the admin view
+            return redirect('/admin');
         } else {
-            // If the user doesn't exist, create a new user and log them in
-            $newUser = new User();
-            $newUser->name = $user->name;
-            $newUser->email = $user->email;
-            $newUser->save();
-
-            Auth::login($newUser);
+        dd($existingUser);
+        Auth::login($existingUser);
         }
+    } else {
+        // If the user doesn't exist, create a new user and log them in
+        $newUser = new User();
+        $newUser->name = $user->name;
+        $newUser->email = $user->email;
+        $newUser->save();
 
-        return redirect('/home/' . Auth::user()->name);
-
+        Auth::login($newUser);
     }
+
+    if (Auth::user()->isAdmin()) {
+        // If the logged-in user is an admin, redirect to the admin view
+        return redirect('/admin');
+    } else {
+        // If the logged-in user is not an admin, redirect to the regular home view
+        return redirect('/home/' . Auth::user()->name);
+    }
+}
+
+
 
     protected $redirectTo = RouteServiceProvider::HOME;
 

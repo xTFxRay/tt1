@@ -11,22 +11,23 @@ return new class extends Migration
      */
     public function up()
 {
-    Schema::create('likes', function (Blueprint $table) {
-        $table->id();
+    Schema::create('cart_song', function (Blueprint $table) {
+        $table->unsignedBigInteger('cart_id');
         $table->unsignedBigInteger('song_id');
-        $table->unsignedBigInteger('user_id');
-        $table->integer('like_count')->default(0);
-        $table->timestamps();
+        // Add any additional columns if needed
 
+        // Define foreign key constraints
+        $table->foreign('cart_id')->references('id')->on('carts');
         $table->foreign('song_id')->references('id')->on('songs')->onDelete('cascade');
-        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
     });
 }
+
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('likes');
+        Schema::dropIfExists('cart_song');
     }
 };
